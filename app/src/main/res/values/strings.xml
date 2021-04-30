@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">
+
+    </string>
+    <string name="musica">Musica</string>
+    <string name="open">Open</string>
+    <string name="close">Closed</string>
+    <string name="blank" />
+    <string name="listen">Listen Later</string>
+    <string name="search">Search</string>
+    <string name="todo">TODO</string>
+    <string-array name="sort_array">
+        <item>Deezer Ranking</item>
+        <item>Track Name Ascending</item>
+        <item>Track Name Descending</item>
+        <item>Artist Name Ascending</item>
+        <item>Artist Name Descending</item>
+        <item>Rating Ascending</item>
+        <item>Rating Descending</item>
+    </string-array>
+</resources>
