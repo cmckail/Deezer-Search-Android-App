@@ -1,4 +1,4 @@
-package ca.mohawk.finalproject;
+package ca.mohawk.deezer_search_android_app;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -11,7 +11,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;

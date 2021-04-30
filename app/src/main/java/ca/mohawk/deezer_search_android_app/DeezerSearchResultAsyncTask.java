@@ -1,4 +1,4 @@
-package ca.mohawk.finalproject;
+package ca.mohawk.deezer_search_android_app;
 
 import android.app.Activity;
 import android.content.Intent;

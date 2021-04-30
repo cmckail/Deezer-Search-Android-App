@@ -1,4 +1,4 @@
-package ca.mohawk.finalproject;
+package ca.mohawk.deezer_search_android_app;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -6,34 +6,30 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
-/**
- * handles the listenLaterActivity which displays
- * a list of songs the artist has saved to listen
- * to later.
- */
-public class ListenLaterActivity extends AppCompatActivity
+public class SongDetailActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    public static final String TAG = "==ListenLaterActivity==";
+    public static String TAG = "== Main Activity 3 ==";
+    private static SongDetailActivity currentActivity = null;
     private DrawerLayout myDrawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listen_later);
-
+        setContentView(R.layout.activity_song_detail);
+        currentActivity = this;
         // Access myDrawer
         myDrawer = (DrawerLayout)
                 findViewById(R.id.drawer_layout);
-        //Access the ActionBar
+        //Access the ActionBar, enable "home" icon
         ActionBar myActionBar = getSupportActionBar();
         myActionBar.setDisplayHomeAsUpEnabled(true);
         // Add an ActionBarDrawerToggle element
@@ -43,15 +39,34 @@ public class ListenLaterActivity extends AppCompatActivity
         myDrawer.addDrawerListener(myactionbartoggle);
         myactionbartoggle.syncState();
         // set up callback method for Navigation View
-        NavigationView myNavView = findViewById(R.id.nav_view);
+        NavigationView myNavView = (NavigationView)
+                findViewById(R.id.nav_view);
         myNavView.setNavigationItemSelectedListener(this);
 
-        //create and load the Listen later Fragment
-        FrameLayout f = findViewById(R.id.Mycontainer);
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.Mycontainer, new ListenLaterListFragment());
-        fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DownloadSongDetails(null);
+    }
+
+    public static Activity getCurrentActivity() {
+        return currentActivity;
+    }
+
+    /**
+     * handles the api call to get the track data
+     * from the deezer api
+     * @param view
+     */
+    public void DownloadSongDetails(View view) {
+        DeezerSongDownloadAsyncTask dl = new DeezerSongDownloadAsyncTask(null, getCurrentActivity());
+        // Build call to Webservice
+        Intent intent = getIntent();
+        String uri = "https://api.deezer.com/track/" + intent.getStringExtra("id");
+        Log.d(TAG, "DownloadSongDetails " + uri);
+        dl.execute(uri);
     }
 
     /**

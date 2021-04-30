@@ -1,4 +1,4 @@
-package ca.mohawk.finalproject;
+package ca.mohawk.deezer_search_android_app;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,13 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
 
 /**
  * displays all of the tracks saved by the user

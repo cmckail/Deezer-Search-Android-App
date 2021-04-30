@@ -1,4 +1,4 @@
-package ca.mohawk.finalproject;
+package ca.mohawk.deezer_search_android_app;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -6,26 +6,38 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
-import android.app.Activity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
+
 
 import com.google.android.material.navigation.NavigationView;
 
-public class SongDetailActivity extends AppCompatActivity
+/**
+ * Main Activity presented on launch of the app
+ */
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    public static String TAG = "== Main Activity 3 ==";
-    private static SongDetailActivity currentActivity = null;
+
+    private FragmentTransaction fragmentTransaction;
+    private FragmentManager fm;
+    public static final String TAG = "==MainActivity==";
     private DrawerLayout myDrawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_song_detail);
-        currentActivity = this;
+        setContentView(R.layout.activity_main);
+        if (savedInstanceState == null){
+            fm = getSupportFragmentManager();
+            fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.replace(R.id.MyContainer,
+                    new SearchFormFragment());
+            fragmentTransaction.commit();
+        }else {
+            fm = getSupportFragmentManager();
+        }
         // Access myDrawer
         myDrawer = (DrawerLayout)
                 findViewById(R.id.drawer_layout);
@@ -42,31 +54,15 @@ public class SongDetailActivity extends AppCompatActivity
         NavigationView myNavView = (NavigationView)
                 findViewById(R.id.nav_view);
         myNavView.setNavigationItemSelectedListener(this);
+        //the initial fragments
+
 
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        DownloadSongDetails(null);
-    }
-
-    public static Activity getCurrentActivity() {
-        return currentActivity;
-    }
-
-    /**
-     * handles the api call to get the track data
-     * from the deezer api
-     * @param view
-     */
-    public void DownloadSongDetails(View view) {
-        DeezerSongDownloadAsyncTask dl = new DeezerSongDownloadAsyncTask(null, getCurrentActivity());
-        // Build call to Webservice
-        Intent intent = getIntent();
-        String uri = "https://api.deezer.com/track/" + intent.getStringExtra("id");
-        Log.d(TAG, "DownloadSongDetails " + uri);
-        dl.execute(uri);
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        onCreate(savedInstanceState);
     }
 
     /**
@@ -100,12 +96,12 @@ public class SongDetailActivity extends AppCompatActivity
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Find out the current state of the drawer (open or closed)
+// Find out the current state of the drawer (open or closed)
         boolean isOpen = myDrawer.isDrawerOpen(GravityCompat.START);
-        // Handle item selection
+// Handle item selection
         switch (item.getItemId()) {
             case android.R.id.home:
-                // Home button - open or close the drawer
+// Home button - open or close the drawer
                 if (isOpen == true) {
                     myDrawer.closeDrawer(GravityCompat.START);
                 } else {
@@ -115,4 +111,12 @@ public class SongDetailActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed(){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
+    }
+
 }

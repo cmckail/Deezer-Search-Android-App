@@ -1,4 +1,4 @@
-package ca.mohawk.finalproject;
+package ca.mohawk.deezer_search_android_app;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.util.Log;
  */
 public class DeezerSongSQLiteHelper extends SQLiteOpenHelper {
 
-    public static final String TAG = "==DeezerSongSQLiteHelper==";
+    public static final String TAG = "==SQLiteHelper==";
     public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_FILE_NAME = "Musica.db";
     public static final String MYTABLE = "DeezerTracks";
@@ -32,7 +32,7 @@ public class DeezerSongSQLiteHelper extends SQLiteOpenHelper {
 
     /**
      * default Constructor
-     * @param context
+     * @param context context of the current activity
      */
     public DeezerSongSQLiteHelper(Context context) {
         super(context, DATABASE_FILE_NAME, null, DATABASE_VERSION);
@@ -42,7 +42,9 @@ public class DeezerSongSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     /**
-     * Create the database
+     * Handles creating the database
+     *
+     * @param db the sqlitedatabase to be used
      */
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "onCreate " + SQL_CREATE);
@@ -83,8 +85,9 @@ public class DeezerSongSQLiteHelper extends SQLiteOpenHelper {
         String query = "SELECT " + this.ID +
                 " FROM " + this.MYTABLE + " WHERE " + this.ID + " = ?";
         Cursor c = db.rawQuery(query, new String[]{mID});
-
-        return c.getCount() > 0;
+        boolean exists = c.getCount() > 0;
+        c.close();
+        return exists;
 
     }
 

@@ -1,22 +1,11 @@
-package ca.mohawk.finalproject;
+package ca.mohawk.deezer_search_android_app;
 
 import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -25,7 +14,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 /**
  * Base class used to handle api queries to the

@@ -1,4 +1,4 @@
-package ca.mohawk.finalproject;
+package ca.mohawk.deezer_search_android_app;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**

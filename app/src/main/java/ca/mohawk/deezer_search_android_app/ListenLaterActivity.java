@@ -1,7 +1,6 @@
-package ca.mohawk.finalproject;
+package ca.mohawk.deezer_search_android_app;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,46 +8,32 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Spinner;
-import  android.widget.Toast;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import android.widget.FrameLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
 /**
- * Main Activity presented on launch of the app
+ * handles the listenLaterActivity which displays
+ * a list of songs the artist has saved to listen
+ * to later.
  */
-public class MainActivity extends AppCompatActivity
+public class ListenLaterActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    private FragmentTransaction fragmentTransaction;
-    private FragmentManager fm;
-    public static final String TAG = "==MainActivity==";
+    public static final String TAG = "==ListenLaterActivity==";
     private DrawerLayout myDrawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        if (savedInstanceState == null){
-            fm = getSupportFragmentManager();
-            fragmentTransaction = fm.beginTransaction();
-            fragmentTransaction.replace(R.id.MyContainer,
-                    new SearchFormFragment());
-            fragmentTransaction.commit();
-        }else {
-            fm = getSupportFragmentManager();
-        }
+        setContentView(R.layout.activity_listen_later);
+
         // Access myDrawer
         myDrawer = (DrawerLayout)
                 findViewById(R.id.drawer_layout);
-        //Access the ActionBar, enable "home" icon
+        //Access the ActionBar
         ActionBar myActionBar = getSupportActionBar();
         myActionBar.setDisplayHomeAsUpEnabled(true);
         // Add an ActionBarDrawerToggle element
@@ -58,18 +43,15 @@ public class MainActivity extends AppCompatActivity
         myDrawer.addDrawerListener(myactionbartoggle);
         myactionbartoggle.syncState();
         // set up callback method for Navigation View
-        NavigationView myNavView = (NavigationView)
-                findViewById(R.id.nav_view);
+        NavigationView myNavView = findViewById(R.id.nav_view);
         myNavView.setNavigationItemSelectedListener(this);
-        //the initial fragments
 
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        onCreate(savedInstanceState);
+        //create and load the Listen later Fragment
+        FrameLayout f = findViewById(R.id.Mycontainer);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.Mycontainer, new ListenLaterListFragment());
+        fragmentTransaction.commit();
     }
 
     /**
@@ -103,12 +85,12 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-// Find out the current state of the drawer (open or closed)
+        // Find out the current state of the drawer (open or closed)
         boolean isOpen = myDrawer.isDrawerOpen(GravityCompat.START);
-// Handle item selection
+        // Handle item selection
         switch (item.getItemId()) {
             case android.R.id.home:
-// Home button - open or close the drawer
+                // Home button - open or close the drawer
                 if (isOpen == true) {
                     myDrawer.closeDrawer(GravityCompat.START);
                 } else {
@@ -118,12 +100,4 @@ public class MainActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onBackPressed(){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-
-    }
-
 }
